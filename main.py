@@ -13,4 +13,5 @@ def task():
 @app.get("/")
 def home(background_tasks: BackgroundTasks):
     background_tasks.add_task(task)
+
     return
