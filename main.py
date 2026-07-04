@@ -17,8 +17,6 @@ def task():
 def home(background_tasks: fastapi.BackgroundTasks):
     background_tasks.add_task(task)
 
-    return
-
 
 class User(pydantic.BaseModel):
     username: str
