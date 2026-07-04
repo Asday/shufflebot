@@ -4,6 +4,9 @@ import typing
 
 import fastapi
 import pydantic
+import requests
+
+import settings
 
 
 app = fastapi.FastAPI()
@@ -19,7 +22,7 @@ def home(background_tasks: fastapi.BackgroundTasks):
 
 
 class User(pydantic.BaseModel):
-    username: str
+    id_: str = pydantic.Field(..., alias="id")
 
 
 class Action(pydantic.BaseModel):
@@ -33,10 +36,31 @@ class BlockActions(pydantic.BaseModel):
 
 
 @app.post("/interactivity")
-async def slack_callback(request: fastapi.Request):
-    async with request.form() as form:
+async def slack_callback(rq: fastapi.Request, bt: fastapi.BackgroundTasks):
+    # TODO: verify request.
+    # docs.slack.dev/authentication/verifying-requests-from-slack/
+    async with rq.form() as form:
         data = json.loads(form["payload"])  # Slack is insane.
 
+    bt.add_task(callback_task, data=data)
+
+
+def callback_task(data: typing.Any):
     ba = BlockActions(**data)
 
-    return
+    with open(settings.STATE_DIR / "who-up" / ba.user.id_, "w"): pass
+
+    requests.post(
+        "https://slack.com/api/chat.postEphemeral",
+        headers={
+            "Authorization": f"Bearer {settings.TOKEN}",
+        },
+        json={
+            "user": ba.user.id_,
+            "channel": settings.CHANNEL,
+            "text": (
+                "You're signed up for this Friday.  You'll be shuffled"
+                " into groups on the day."
+            ),
+        },
+    )
