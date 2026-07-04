@@ -17,8 +17,13 @@
 	$${EDITOR:-vi} .envrc
 	direnv allow
 
+state/.state:
+	mkdir -p state/who-up
+	mkdir -p state/exclude
+	touch state/.state
+
 .PHONY: run
-run: .venv/bin/python .markers/requirements .envrc
+run: .venv/bin/python .markers/requirements .envrc state/.state
 	direnv exec .venv/bin/fastapi dev
 
 lock.txt: .venv/bin/pip .markers/requirements requirements.txt
