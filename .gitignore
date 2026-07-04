@@ -1,6 +1,11 @@
+# Local environment mess.
 .envrc
 .venv
 .markers
 __pycache__
 
+# Generated artefacts.
 lock.txt
+
+# Runtime data.
+state
