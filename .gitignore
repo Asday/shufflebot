@@ -8,4 +8,4 @@ __pycache__
 lock.txt
 
 # Runtime data.
-state
+.state
