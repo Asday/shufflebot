@@ -14,8 +14,18 @@ requests.post(
             {
                 "type": "section",
                 "text": {
-                    "type": "plain_text",
-                    "text": "Hello world",
+                    "type": "mrkdwn",
+                    "text": "Are you free for the shuffle this Friday?"
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Yeah"
+                    },
+                    "style": "primary",
+                    "value": "yeah",
+                    "action_id": "waoooooooooo"
                 }
             }
         ]
