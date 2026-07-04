@@ -1,0 +1,6 @@
+.envrc
+.venv
+.markers
+__pycache__
+
+lock.txt
