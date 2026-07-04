@@ -1,9 +1,9 @@
 import os
 
-from fastapi import BackgroundTasks, FastAPI
+import fastapi
 
 
-app = FastAPI()
+app = fastapi.FastAPI()
 
 
 def task():
@@ -11,7 +11,7 @@ def task():
 
 
 @app.get("/")
-def home(background_tasks: BackgroundTasks):
+def home(background_tasks: fastapi.BackgroundTasks):
     background_tasks.add_task(task)
 
     return
