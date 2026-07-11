@@ -6,6 +6,9 @@ import requests
 import settings
 
 
+for path in os.listdir(settings.STATE_DIR / "who-up"):
+    os.remove(settings.STATE_DIR / "who-up" / path)
+
 response = requests.post(
     "https://slack.com/api/chat.postMessage",
     headers={
