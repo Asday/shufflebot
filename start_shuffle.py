@@ -1,13 +1,12 @@
 import json
-import os
 
 import requests
 
 import settings
 
 
-for path in os.listdir(settings.STATE_DIR / "who-up"):
-    os.remove(settings.STATE_DIR / "who-up" / path)
+for path in (settings.STATE_DIR / "who-up").iterdir():
+    path.unlink()
 
 response = requests.post(
     "https://slack.com/api/chat.postMessage",
