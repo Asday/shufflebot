@@ -17,12 +17,12 @@
 	$${EDITOR:-vi} .envrc
 	direnv allow
 
-.state/.state:
+.markers/state:
 	mkdir -p .state/who-up
-	touch .state/.state
+	touch .markers/state
 
 .PHONY: listen
-listen: .venv/bin/python .markers/requirements .envrc .state/.state
+listen: .venv/bin/python .markers/requirements .envrc .markers/state
 	direnv exec .venv/bin/fastapi dev -e listen_for_signups:app --port 5802
 
 lock.txt: .venv/bin/pip .markers/requirements requirements.txt
