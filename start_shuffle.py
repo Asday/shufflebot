@@ -22,11 +22,12 @@ response = requests.post(
                 "text": {
                     "type": "mrkdwn",
                     "text": (
-                        "Are you free for the shuffle this Friday?"
-                        "  It's in your calendar for 12:45 (UK time),"
-                        " and you'll be grouped up with some other"
-                        " temsters to talk about anything other than"
-                        " work for 15 minutes."
+                        "Are you free for the shuffle this Friday?  If"
+                        " so, click the button.  The shuffle's in your"
+                        " calendar for 12:45 (UK time), and you'll be"
+                        " grouped up with some other temsters to talk"
+                        " about anything other than work for 15"
+                        " minutes."
                     ),
                 },
                 "accessory": {
