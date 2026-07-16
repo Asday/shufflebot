@@ -1,4 +1,4 @@
-.DEFAULT_GOAL: run
+.DEFAULT_GOAL=run
 
 .venv/bin/python:
 	python -m venv .venv
