@@ -23,7 +23,7 @@
 
 .PHONY: listen
 listen: .venv/bin/python .markers/requirements .envrc .state/.state
-	direnv exec .venv/bin/fastapi dev -e listen_for_signups:app
+	direnv exec .venv/bin/fastapi dev -e listen_for_signups:app --port 5802
 
 lock.txt: .venv/bin/pip .markers/requirements requirements.txt
 	.venv/bin/pip freeze > lock.txt
