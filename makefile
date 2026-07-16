@@ -1,4 +1,4 @@
-.DEFAULT_GOAL=run
+.DEFAULT_GOAL=listen
 
 .venv/bin/python:
 	python -m venv .venv
@@ -21,9 +21,9 @@
 	mkdir -p .state/who-up
 	touch .state/.state
 
-.PHONY: run
-run: .venv/bin/python .markers/requirements .envrc .state/.state
-	direnv exec .venv/bin/fastapi dev
+.PHONY: listen
+listen: .venv/bin/python .markers/requirements .envrc .state/.state
+	direnv exec .venv/bin/fastapi dev -e listen_for_signups:app
 
 lock.txt: .venv/bin/pip .markers/requirements requirements.txt
 	.venv/bin/pip freeze > lock.txt
