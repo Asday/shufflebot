@@ -48,7 +48,7 @@ async def slack_callback(rq: fastapi.Request, bt: fastapi.BackgroundTasks):
 def callback_task(data: typing.Any):
     ba = BlockActions(**data)
 
-    with open(settings.STATE_DIR / "who-up" / ba.user.id_, "w"): pass
+    (settings.STATE_DIR / "who-up" / ba.user.id_).touch()
 
     requests.post(
         "https://slack.com/api/chat.postEphemeral",
