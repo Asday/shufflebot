@@ -14,7 +14,7 @@ batches = [list(b) for b in itertools.batched(user_ids, n=settings.GROUP_SIZE)]
 # `itertools.batched()` fills all the groups by leaving the last one
 # short.  This is a lonely shuffle experience, so if the last group is
 # short, redistribute its members into other groups.
-if len(batches[-1]) != settings.GROUP_SIZE and len(batches) > 1:
+if batches and len(batches[-1]) != settings.GROUP_SIZE and len(batches) > 1:
     invaders = batches.pop()
     for i, invader in enumerate(invaders):
         batches[i % len(batches)].append(invader)
