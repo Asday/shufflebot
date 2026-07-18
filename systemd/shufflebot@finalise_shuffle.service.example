@@ -1,0 +1,17 @@
+[Unit]
+Description=Finalises a shuffle
+
+[Service]
+Type=oneshot
+User=shufflebot
+Group=shufflebot
+DynamicUser=true
+PrivateTmp=true
+
+StateDirectory=shufflebot
+WorkingDirectory=/path/to/project/root/
+
+EnvironmentFile=/path/to/project/root/../secrets/env
+
+ExecStart=/path/to/project/root/.venv/bin/python \
+	/path/to/project/root/finalise_shuffle.py

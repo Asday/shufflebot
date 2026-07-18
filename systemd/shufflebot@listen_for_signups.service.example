@@ -1,0 +1,23 @@
+[Unit]
+Description=Listen for shuffle signups
+After=network.target
+
+[Service]
+Type=simple
+User=shufflebot
+Group=shufflebot
+DynamicUser=true
+PrivateTmp=true
+
+StateDirectory=shufflebot
+WorkingDirectory=/path/to/project/root/
+
+EnvironmentFile=/path/to/project/root/../secrets/env
+
+ExecStart=\
+	/path/to/project/root/.venv/bin/fastapi \
+	run \
+	-e listen_for_signups:app \
+	--port 5802
+RestartSec=1
+Restart=always

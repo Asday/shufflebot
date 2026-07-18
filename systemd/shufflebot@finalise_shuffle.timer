@@ -1,0 +1,8 @@
+[Unit]
+Description=Finalise shuffles on Friday
+
+[Timer]
+OnCalendar=Fri *-*-* 09:00:00 Europe/London
+
+[Install]
+WantedBy=timers.target

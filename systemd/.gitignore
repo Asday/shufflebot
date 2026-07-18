@@ -1,0 +1,4 @@
+# Don't commit generated artefacts.
+shufflebot@finalise_shuffle.service
+shufflebot@listen_for_signups.service
+shufflebot@start_shuffle.service
