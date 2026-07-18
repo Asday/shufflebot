@@ -25,6 +25,14 @@
 listen: .venv/bin/python .markers/requirements .envrc .markers/state
 	direnv exec .venv/bin/fastapi dev -e listen_for_signups:app --port 5802
 
+.PHONY: start-shuffle
+start-shuffle: .venv/bin/python .markers/requirements .envrc .markers/state
+	direnv exec .venv/bin/python start_shuffle.py
+
+.PHONY: finalise-shuffle
+finalise-shuffle: .venv/bin/python .markers/requirements .envrc .markers/state
+	direnv exec .venv/bin/python finalise_shuffle.py
+
 lock.txt: .venv/bin/pip .markers/requirements requirements.txt
 	.venv/bin/pip freeze > lock.txt
 
