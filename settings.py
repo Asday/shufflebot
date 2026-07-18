@@ -3,6 +3,8 @@ import pathlib
 
 
 STATE_DIR = pathlib.Path(os.environ["STATE_DIRECTORY"])
+(STATE_DIR / "who-up").mkdir(exist_ok=True)
+
 TOKEN = os.environ['SHUFFLE_TOKEN']
 CHANNEL = os.environ["SHUFFLE_WHO_UP_CHANNEL"]
 GROUP_SIZE = int(os.environ["SHUFFLE_GROUP_SIZE"])
