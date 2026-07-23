@@ -3,6 +3,7 @@ import os
 import typing
 
 import fastapi
+import fastapi.staticfiles
 import pydantic
 import requests
 
@@ -88,3 +89,10 @@ def config(scp: ShufflebotConfigPOST) -> ShufflebotConfig:
     scp.config.save()
 
     return scp.config
+
+
+app.mount(
+    "/",
+    fastapi.staticfiles.StaticFiles(directory="static", html=True),
+    name="static",
+)
