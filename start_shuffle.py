@@ -8,6 +8,11 @@ import settings
 for path in (settings.STATE_DIR / "who-up").iterdir():
     path.unlink()
 
+with open(settings.CONFIG_FILE, "r") as f:
+    config = json.load(f)
+    invite_message = config["invite_message"]
+    button_text = config["button_text"]
+
 response = requests.post(
     "https://slack.com/api/chat.postMessage",
     headers={
@@ -20,20 +25,13 @@ response = requests.post(
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": (
-                        "Are you free for the shuffle this Friday?  If"
-                        " so, click the button.  The shuffle's in your"
-                        " calendar for 12:45 (UK time), and you'll be"
-                        " grouped up with some other temsters to talk"
-                        " about anything other than work for 15"
-                        " minutes."
-                    ),
+                    "text": invite_message,
                 },
                 "accessory": {
                     "type": "button",
                     "text": {
                         "type": "plain_text",
-                        "text": "Yeah"
+                        "text": button_text,
                     },
                     "style": "primary",
                     "value": "yeah",

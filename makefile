@@ -23,16 +23,32 @@ currentDir=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 	mkdir -p .state/who-up
 	touch .markers/state
 
+.markers/config:
+	mkdir -p .config
+	touch .markers/config
+
 .PHONY: listen
-listen: .venv/bin/python .markers/requirements .envrc .markers/state
+listen: .venv/bin/python
+listen: .markers/requirements
+listen: .envrc
+listen: .markers/state
+listen: .markers/config
 	direnv exec .venv/bin/fastapi dev -e listen_for_signups:app --port 5802
 
 .PHONY: start-shuffle
-start-shuffle: .venv/bin/python .markers/requirements .envrc .markers/state
+start-shuffle: .venv/bin/python
+start-shuffle: .markers/requirements
+start-shuffle: .envrc
+start-shuffle: .markers/state
+start-shuffle: .markers/config
 	direnv exec .venv/bin/python start_shuffle.py
 
 .PHONY: finalise-shuffle
-finalise-shuffle: .venv/bin/python .markers/requirements .envrc .markers/state
+finalise-shuffle: .venv/bin/python
+finalise-shuffle: .markers/requirements
+finalise-shuffle: .envrc
+finalise-shuffle: .markers/state
+finalise-shuffle: .markers/config
 	direnv exec .venv/bin/python finalise_shuffle.py
 
 lock.txt: .venv/bin/pip .markers/requirements requirements.txt
@@ -130,6 +146,10 @@ clean: clean-systemd
 	rm -rf .venv
 	rm -rf .markers
 	rm -rf .state
+
+.PHONY: clean-all
+clean-all: clean
+	rm -rf .config
 
 .PHONY: nuke
 nuke: clean

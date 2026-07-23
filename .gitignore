@@ -9,3 +9,4 @@ lock.txt
 
 # Runtime data.
 .state
+.config

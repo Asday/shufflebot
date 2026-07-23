@@ -47,21 +47,14 @@ for batch in batches:
     # hopefully be rare.
     if data["ok"]: channel_ids.append(data["channel"]["id"])
 
+with open(settings.CONFIG_FILE, "r") as f:
+    welcome_message = json.read(f)["welcome_message"]
+
 for channel_id in channel_ids:
     requests.post(
         "https://slack.com/api/chat.postMessage",
         headers={"Authorization": f"Bearer {settings.TOKEN}"},
-        json={
-            "channel": channel_id,
-            "text": (
-                "Welcome to the shuffle, where we discuss anything not"
-                " work related for fifteen minutes, to better maintain"
-                " company culture even in a remote setting.\n"
-                "\n"
-                "When the time comes (it's in your calendar), any one"
-                " of you should start a huddle in here."
-            ),
-        }
+        json={"channel": channel_id, "text": welcome_message}
     )
 
 with open(settings.STATE_DIR / "shuffle-message.json", "r") as f:
