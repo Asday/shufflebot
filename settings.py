@@ -38,6 +38,7 @@ if not CONFIG_FILE.exists():
         )
 
 TOKEN = os.environ["SHUFFLE_TOKEN"]
+CONFIG_PASSKEY = os.environ["SHUFFLE_CONFIG_PASSKEY"]
 CHANNEL = os.environ["SHUFFLE_WHO_UP_CHANNEL"]
 GROUP_SIZE = int(os.environ["SHUFFLE_GROUP_SIZE"])
 

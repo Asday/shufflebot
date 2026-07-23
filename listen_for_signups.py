@@ -68,3 +68,23 @@ def callback_task(data: typing.Any):
             "text": ShufflebotConfig.load().confirmation_message,
         },
     )
+
+
+@app.get("/config")
+def config() -> ShufflebotConfig:
+    return ShufflebotConfig.load()
+
+
+class ShufflebotConfigPOST(pydantic.BaseModel):
+    config: ShufflebotConfig
+    passkey: str
+
+
+@app.post("/config")
+def config(scp: ShufflebotConfigPOST) -> ShufflebotConfig:
+    if scp.passkey != settings.CONFIG_PASSKEY:
+        raise fastapi.HTTPException(status_code=403)
+
+    scp.config.save()
+
+    return scp.config
