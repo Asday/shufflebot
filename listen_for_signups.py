@@ -36,6 +36,22 @@ async def slack_callback(rq: fastapi.Request, bt: fastapi.BackgroundTasks):
     bt.add_task(callback_task, data=data)
 
 
+class ShufflebotConfig(pydantic.BaseModel):
+    invite_message: str
+    button_text: str
+    confirmation_message: str
+    welcome_message: str
+
+    @classmethod
+    def load(cls):
+        with open(settings.CONFIG_FILE, "r") as f:
+            return cls.model_validate_json(f.read())
+
+    def save(self):
+        with open(settings.CONFIG_FILE, "w") as f:
+            f.write(self.model_dump_json(indent=2))
+
+
 def callback_task(data: typing.Any):
     ba = BlockActions(**data)
 
@@ -49,9 +65,6 @@ def callback_task(data: typing.Any):
         json={
             "user": ba.user.id_,
             "channel": settings.CHANNEL,
-            "text": (
-                "You're signed up for this Friday.  You'll be shuffled"
-                " into groups on the day."
-            ),
+            "text": ShufflebotConfig.load().confirmation_message,
         },
     )
