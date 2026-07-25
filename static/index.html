@@ -1,7 +1,139 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <style>
+            html { filter: invert(100%); }
+            img { filter: invert(100%); }
+            svg { filter: invert(100%); }
+            textarea { width: 72em; height: 8em; }
+            [inert] { filter: blur(0.1em); }
+            form { width: fit-content; }
+        </style>
+    </head>
     <body>
-        <h1>Wow cool</h1>
+        <template id="loader"><p>Loading...</p></template>
+        <template id="form">
+            <form class="js-form">
+                <label>
+                    <p>Invite message:</p>
+                    <textarea name="invite_message" class="js-invite-message">
+                    </textarea>
+                </label>
+                <label>
+                    <p>Button text:</p>
+                    <input
+                        type="text"
+                        name="button_text"
+                        class="js-button-text"
+                    />
+                </label>
+                <label>
+                    <p>Confirmation message:</p>
+                    <textarea
+                        name="confirmation_message"
+                        class="js-confirmation-message"
+                    >
+                    </textarea>
+                </label>
+                <label>
+                    <p>Welcome message:</p>
+                    <textarea name="welcome_message" class="js-welcome-message">
+                    </textarea>
+                </label>
+                <label>
+                    <p>Password:</p>
+                    <input type="password" name="passkey" />
+                </label>
+
+                <p>
+                    <button type="button" onclick="doSubmit(event)">
+                        Update
+                    </button>
+                </p>
+            </form>
+        </template>
+        <template id="message"><div><p class="js-message"></p></div></template>
+        <template id="success"><p>Configuration updated.</p></template>
+
+        <h1>Shufflebot configuration</h1>
+        <div id="messages"></div>
+        <div id="app">
+            <p>
+                This page only works with JavaScript enabled.
+            </p>
+        </div>
+
+        <script>
+            const addMessage = (msg) => {
+                const clonedMessage = document.importNode(message.content, true)
+                clonedMessage
+                    .firstElementChild
+                    .getElementsByClassName("js-message")[0]
+                    .textContent = msg
+                messages.appendChild(clonedMessage)
+            }
+
+            window.doSubmit = async (event) => {
+                messages.textContent = ""
+                event.srcElement.form.setAttribute("inert", "")
+                const formData = new FormData(event.srcElement.form)
+                const formatted = {
+                    config: {
+                        invite_message: formData.get("invite_message"),
+                        button_text: formData.get("button_text"),
+                        confirmation_message: formData.get("confirmation_message"),
+                        welcome_message: formData.get("welcome_message"),
+                    },
+                    passkey: formData.get("passkey"),
+                }
+                const response = await fetch(
+                    "config", {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(formatted),
+                    },
+                )
+                
+                if (!response.ok) {
+                    addMessage("Incorrect password.")  // Probably.
+                    event.srcElement.form.removeAttribute("inert")
+
+                    return
+                }
+
+                app.textContent = ""
+                app.appendChild(document.importNode(success.content, true))
+            }
+
+            (async () => {
+                app.textContent = ""
+                app.appendChild(document.importNode(loader.content, true))
+                const response = await fetch("config")
+                const json = await response.json()
+                const clonedForm = document.importNode(form.content, true)
+                clonedForm
+                    .firstElementChild
+                    .getElementsByClassName("js-invite-message")[0]
+                    .value = json["invite_message"]
+                clonedForm
+                    .firstElementChild
+                    .getElementsByClassName("js-button-text")[0]
+                    .value = json["button_text"]
+                clonedForm
+                    .firstElementChild
+                    .getElementsByClassName("js-confirmation-message")[0]
+                    .value = json["confirmation_message"]
+                clonedForm
+                    .firstElementChild
+                    .getElementsByClassName("js-welcome-message")[0]
+                    .value = json["welcome_message"]
+                
+                app.textContent = ""
+                app.appendChild(clonedForm)
+            })()
+        </script>
     </body>
 </html>
