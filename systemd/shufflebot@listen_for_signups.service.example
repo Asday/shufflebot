@@ -10,6 +10,7 @@ DynamicUser=true
 PrivateTmp=true
 
 StateDirectory=shufflebot
+ConfigurationDirectory=shufflebot
 WorkingDirectory=/path/to/project/root/
 
 EnvironmentFile=/path/to/project/root/../secrets/env
