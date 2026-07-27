@@ -21,10 +21,12 @@ currentDir=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 .markers/state:
 	mkdir -p .state/who-up
+	mkdir -p .markers
 	touch .markers/state
 
 .markers/config:
 	mkdir -p .config
+	mkdir -p .markers
 	touch .markers/config
 
 .PHONY: listen
@@ -119,6 +121,7 @@ systemd: systemd/shufflebot@finalise_shuffle.service
 	sudo systemctl start shufflebot@start_shuffle.timer
 	sudo systemctl start shufflebot@finalise_shuffle.timer
 	sudo systemctl start shufflebot@listen_for_signups
+	mkdir -p .markers
 	touch .markers/installed
 
 .markers/uninstalled:
@@ -127,6 +130,7 @@ systemd: systemd/shufflebot@finalise_shuffle.service
 	sudo systemctl disable shufflebot@finalise_shuffle.timer
 	sudo systemctl stop shufflebot@listen_for_signups.service
 	sudo systemctl disable shufflebot@listen_for_signups.service
+	mkdir -p .markers
 	touch .markers/uninstalled
 
 .PHONY: install
