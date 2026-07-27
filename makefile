@@ -134,7 +134,7 @@ systemd: systemd/shufflebot@finalise_shuffle.service
 	touch .markers/uninstalled
 
 .PHONY: install
-install: .markers/installed .venv/bin/python .markers/requirements
+install: .venv/bin/python .markers/requirements .markers/installed
 
 .PHONY: uninstall
 uninstall: .markers/uninstalled
