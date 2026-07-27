@@ -19,6 +19,7 @@ if not CONFIG_FILE.exists():
                     " with some other team members to talk about"
                     " anything other than work for 15 minutes."
                 ),
+                "button_text": "Yeah",
                 "confirmation_message": (
                     "You're signed up for this Friday.  You'll be"
                     " shuffled into groups on the day."
