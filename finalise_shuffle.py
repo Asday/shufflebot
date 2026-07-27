@@ -48,7 +48,7 @@ for batch in batches:
     if data["ok"]: channel_ids.append(data["channel"]["id"])
 
 with open(settings.CONFIG_FILE, "r") as f:
-    welcome_message = json.read(f)["welcome_message"]
+    welcome_message = json.load(f)["welcome_message"]
 
 for channel_id in channel_ids:
     requests.post(
