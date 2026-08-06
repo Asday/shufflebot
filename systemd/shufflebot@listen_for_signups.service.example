@@ -22,3 +22,6 @@ ExecStart=\
 	--port 5802
 RestartSec=1
 Restart=always
+
+[Install]
+WantedBy=multi-user.target
